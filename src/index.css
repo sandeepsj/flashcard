@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --card-front-bg: #f8fafc;
+  --card-back-bg: #eff6ff;
+  --heatmap-0: #e5e7eb;
+  --heatmap-1: #c7d2fe;
+  --heatmap-2: #818cf8;
+  --heatmap-3: #4f46e5;
+}
+
+.dark {
+  --card-front-bg: #1e1b4b;
+  --card-back-bg: #1e293b;
+  --heatmap-0: #374151;
+  --heatmap-1: #3730a3;
+  --heatmap-2: #4f46e5;
+  --heatmap-3: #818cf8;
+}
+
+/* 3D flip card */
+.card-scene {
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 1rem;
+}
+
+.card-face-back {
+  transform: rotateY(180deg);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #a5b4fc;
+  border-radius: 3px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #4338ca;
+}
+
+/* Bottom nav safe area */
+.bottom-nav-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
