@@ -45,7 +45,7 @@ export default function Heatmap({ reviews = [] }) {
   const reviewsByDate = useMemo(() => {
     const map = {}
     reviews.forEach((r) => {
-      const date = r.reviewedAt?.toDate ? r.reviewedAt.toDate() : new Date(r.reviewedAt)
+      const date = new Date(r.reviewedAt)
       const key = date.toISOString().slice(0, 10)
       map[key] = (map[key] || 0) + 1
     })

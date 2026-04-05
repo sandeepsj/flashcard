@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { db } from '../lib/firebase'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useData } from '../context/DataContext'
 import { useTheme } from '../context/ThemeContext'
 import { useSpeech } from '../hooks/useSpeech'
 import Button from '../components/ui/Button'
 import { useToast } from '../components/ui/Toast'
-import { Sun, Moon } from 'lucide-react'
 
 const RATES = [
   { label: 'Slow', value: 0.75 },
@@ -16,29 +14,21 @@ const RATES = [
 
 export default function Settings() {
   const { user, signOut } = useAuth()
+  const { data, updateSettings } = useData()
   const { theme, toggleTheme } = useTheme()
   const toast = useToast()
   const { voices } = useSpeech()
   const [settings, setSettings] = useState({ speechRate: 1.0, voiceURI: '', theme: 'light' })
-  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    if (!user) return
-    getDoc(doc(db, 'users', user.uid, 'settings', 'app'))
-      .then((snap) => { if (snap.exists()) setSettings((s) => ({ ...s, ...snap.data() })) })
-      .catch(() => {})
-  }, [user])
-
-  async function save() {
-    setSaving(true)
-    try {
-      await setDoc(doc(db, 'users', user.uid, 'settings', 'app'), settings, { merge: true })
-      toast({ message: 'Settings saved', type: 'success' })
-    } catch (e) {
-      toast({ message: e.message, type: 'error' })
-    } finally {
-      setSaving(false)
+    if (data.settings) {
+      setSettings((s) => ({ ...s, ...data.settings }))
     }
+  }, [data.settings])
+
+  function save() {
+    updateSettings(settings)
+    toast({ message: 'Settings saved', type: 'success' })
   }
 
   return (
@@ -114,7 +104,7 @@ export default function Settings() {
         <Button variant="danger" size="sm" onClick={signOut}>Sign Out</Button>
       </Section>
 
-      <Button fullWidth onClick={save} loading={saving}>Save Settings</Button>
+      <Button fullWidth onClick={save}>Save Settings</Button>
     </div>
   )
 }

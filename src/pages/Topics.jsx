@@ -20,7 +20,7 @@ export default function Topics() {
     const tc = cards.filter((c) => c.topicId === t.id)
     const masteredCount = tc.filter(isMastered).length
     const dueCount = tc.filter((c) => {
-      const d = c.nextReviewDate?.toDate ? c.nextReviewDate.toDate() : new Date(c.nextReviewDate || 0)
+      const d = new Date(c.nextReviewDate || 0)
       return d <= today
     }).length
     return { ...t, masteredCount, dueCount }

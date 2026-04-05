@@ -1,29 +1,22 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { db } from '../lib/firebase'
-import { useAuth } from './AuthContext'
+import { useData } from './DataContext'
 
 const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
-  const { user } = useAuth()
+  const { data, updateSettings } = useData()
   const [theme, setTheme] = useState(() => {
     const stored = localStorage.getItem('theme')
     if (stored) return stored
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   })
 
-  // Sync with Firestore when user logs in
+  // Sync from Drive settings on load
   useEffect(() => {
-    if (!user) return
-    getDoc(doc(db, 'users', user.uid, 'settings', 'app'))
-      .then((snap) => {
-        if (snap.exists() && snap.data().theme) {
-          setTheme(snap.data().theme)
-        }
-      })
-      .catch(() => {})
-  }, [user])
+    if (data.settings?.theme) {
+      setTheme(data.settings.theme)
+    }
+  }, [data.settings?.theme])
 
   // Apply class to <html>
   useEffect(() => {
@@ -33,16 +26,10 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('theme', theme)
   }, [theme])
 
-  async function toggleTheme() {
+  function toggleTheme() {
     const next = theme === 'dark' ? 'light' : 'dark'
     setTheme(next)
-    if (user) {
-      await setDoc(
-        doc(db, 'users', user.uid, 'settings', 'app'),
-        { theme: next },
-        { merge: true }
-      ).catch(() => {})
-    }
+    updateSettings({ theme: next })
   }
 
   return (

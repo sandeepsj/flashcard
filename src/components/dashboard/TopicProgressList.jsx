@@ -10,7 +10,7 @@ export default function TopicProgressList({ topics, cards }) {
     const topicCards = cards.filter((c) => c.topicId === t.id)
     const mastered = topicCards.filter(isMastered).length
     const due = topicCards.filter((c) => {
-      const d = c.nextReviewDate?.toDate ? c.nextReviewDate.toDate() : new Date(c.nextReviewDate || 0)
+      const d = new Date(c.nextReviewDate || 0)
       return d <= today
     }).length
     const total = topicCards.length

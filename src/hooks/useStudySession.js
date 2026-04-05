@@ -1,21 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  updateDoc,
-  addDoc,
-  doc,
-  serverTimestamp,
-  Timestamp,
-} from 'firebase/firestore'
-import { db } from '../lib/firebase'
+import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useData } from '../context/DataContext'
 import { calculateNextReview, todayMidnight } from '../lib/sm2'
 
 export function useStudySession(topicId = null) {
   const { user } = useAuth()
+  const { data, updateCard, addReview } = useData()
   const [queue, setQueue] = useState([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFlipped, setIsFlipped] = useState(false)
@@ -27,26 +17,26 @@ export function useStudySession(topicId = null) {
   useEffect(() => {
     if (!user) return
     loadQueue()
-  }, [user, topicId])
+  }, [user, topicId, data.cards])
 
-  async function loadQueue() {
+  function loadQueue() {
     setLoading(true)
-    const today = Timestamp.fromDate(todayMidnight())
-    const tomorrow = new Date(todayMidnight())
+    const today = todayMidnight()
+    const tomorrow = new Date(today)
     tomorrow.setDate(tomorrow.getDate() + 1)
 
-    const constraints = [
-      where('uid', '==', user.uid),
-      where('nextReviewDate', '<=', Timestamp.fromDate(tomorrow)),
-    ]
-    if (topicId) constraints.push(where('topicId', '==', topicId))
+    let cards = data.cards
+    if (topicId) cards = cards.filter((c) => c.topicId === topicId)
 
-    const snap = await getDocs(query(collection(db, 'cards'), ...constraints))
-    const cards = snap.docs.map((d) => ({ id: d.id, ...d.data() }))
-    setQueue(cards)
+    const due = cards.filter((c) => {
+      const d = new Date(c.nextReviewDate)
+      return d <= tomorrow
+    })
+
+    setQueue(due)
     setCurrentIndex(0)
     setIsFlipped(false)
-    setDone(cards.length === 0)
+    setDone(due.length === 0)
     setLoading(false)
     startTimeRef.current = Date.now()
   }
@@ -57,30 +47,30 @@ export function useStudySession(topicId = null) {
     setIsFlipped(true)
   }
 
-  async function grade(result) {
+  function grade(result) {
     if (!currentCard) return
 
     const update = calculateNextReview(currentCard, result)
 
-    // Update card in Firestore
-    await updateDoc(doc(db, 'cards', currentCard.id), {
+    updateCard(currentCard.id, {
       repetitions: update.repetitions,
       interval: update.interval,
-      nextReviewDate: Timestamp.fromDate(update.nextReviewDate),
-      lastReviewedAt: serverTimestamp(),
+      nextReviewDate: update.nextReviewDate.toISOString(),
+      lastReviewedAt: new Date().toISOString(),
     })
 
-    // Write review record
-    await addDoc(collection(db, 'reviews'), {
-      uid: user.uid,
+    addReview({
+      id: crypto.randomUUID(),
       cardId: currentCard.id,
       topicId: currentCard.topicId,
       result,
-      reviewedAt: serverTimestamp(),
+      reviewedAt: new Date().toISOString(),
     })
 
-    // Update stats + advance
-    setSessionStats((s) => ({ ...s, [result === 'got' ? 'got' : 'missed']: s[result === 'got' ? 'got' : 'missed'] + 1 }))
+    setSessionStats((s) => ({
+      ...s,
+      [result === 'got' ? 'got' : 'missed']: s[result === 'got' ? 'got' : 'missed'] + 1,
+    }))
 
     const next = currentIndex + 1
     if (next >= queue.length) {

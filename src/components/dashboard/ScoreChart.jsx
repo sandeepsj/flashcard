@@ -15,7 +15,7 @@ export default function ScoreChart({ reviews = [] }) {
       map[key] = { date: key, got: 0, missed: 0 }
     }
     reviews.forEach((r) => {
-      const date = r.reviewedAt?.toDate ? r.reviewedAt.toDate() : new Date(r.reviewedAt)
+      const date = new Date(r.reviewedAt)
       const key = date.toISOString().slice(0, 10)
       if (map[key]) {
         if (r.result === 'got') map[key].got++

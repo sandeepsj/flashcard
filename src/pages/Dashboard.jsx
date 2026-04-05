@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import {
-  collection, query, where, getDocs, doc, getDoc, Timestamp
-} from 'firebase/firestore'
-import { db } from '../lib/firebase'
+import React from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useData } from '../context/DataContext'
 import { useTopics } from '../hooks/useTopics'
 import { useCards } from '../hooks/useCards'
 import { todayMidnight } from '../lib/sm2'
@@ -17,62 +14,33 @@ import { BookOpen } from 'lucide-react'
 
 export default function Dashboard() {
   const { user } = useAuth()
+  const { data, loading } = useData()
   const { topics } = useTopics()
   const { cards } = useCards()
   const navigate = useNavigate()
 
-  const [reviews, setReviews] = useState([])
-  const [userSettings, setUserSettings] = useState({})
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    if (!user) return
-    loadData()
-  }, [user])
-
-  async function loadData() {
-    setLoading(true)
-    try {
-      // Load reviews (last 365 days)
-      const since = new Date()
-      since.setFullYear(since.getFullYear() - 1)
-      const revSnap = await getDocs(query(
-        collection(db, 'reviews'),
-        where('uid', '==', user.uid),
-        where('reviewedAt', '>=', Timestamp.fromDate(since))
-      ))
-      setReviews(revSnap.docs.map((d) => ({ id: d.id, ...d.data() })))
-
-      // Load user settings (streak etc)
-      const settingsSnap = await getDoc(doc(db, 'users', user.uid, 'settings', 'app'))
-      if (settingsSnap.exists()) setUserSettings(settingsSnap.data())
-    } catch (e) {
-      console.error(e)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const reviews = data.reviews
 
   // Compute metrics
   const today = todayMidnight()
   const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1)
 
   const dueToday = cards.filter((c) => {
-    const d = c.nextReviewDate?.toDate ? c.nextReviewDate.toDate() : new Date(c.nextReviewDate || 0)
+    const d = new Date(c.nextReviewDate)
     return d <= tomorrow
   }).length
 
   const todayKey = today.toISOString().slice(0, 10)
   const studiedToday = reviews.filter((r) => {
-    const d = r.reviewedAt?.toDate ? r.reviewedAt.toDate() : new Date(r.reviewedAt)
+    const d = new Date(r.reviewedAt)
     return d.toISOString().slice(0, 10) === todayKey
   }).length
 
-  const streak = userSettings.streakCount || 0
+  const streak = data.settings.streakCount || 0
   const totalCards = cards.length
 
   const last30Reviews = reviews.filter((r) => {
-    const d = r.reviewedAt?.toDate ? r.reviewedAt.toDate() : new Date(r.reviewedAt)
+    const d = new Date(r.reviewedAt)
     const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30)
     return d >= cutoff
   })
