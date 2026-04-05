@@ -93,6 +93,7 @@ export default function Create() {
 
       if (!topicId) {
         toast({ message: 'Please select or create a topic', type: 'error' })
+        setSaving(false)
         return
       }
 
@@ -231,7 +232,7 @@ export default function Create() {
             size="lg"
             onClick={saveCards}
             loading={saving}
-            disabled={!previewCards.length || (!selectedTopicId && !newTopicName.trim())}
+            disabled={saving || !previewCards.length}
           >
             <Save className="w-4 h-4" />
             Save {previewCards.length} Cards
