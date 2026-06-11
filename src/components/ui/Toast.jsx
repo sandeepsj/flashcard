@@ -4,9 +4,9 @@ import { CheckCircle, XCircle, AlertCircle, X } from 'lucide-react'
 const ToastContext = createContext(null)
 
 const icons = {
-  success: <CheckCircle className="w-5 h-5 text-emerald-500" />,
-  error: <XCircle className="w-5 h-5 text-red-500" />,
-  info: <AlertCircle className="w-5 h-5 text-indigo-500" />,
+  success: <CheckCircle className="w-5 h-5 text-accent" />,
+  error: <XCircle className="w-5 h-5 text-coral" />,
+  info: <AlertCircle className="w-5 h-5 text-muted" />,
 }
 
 export function ToastProvider({ children }) {
@@ -27,15 +27,15 @@ export function ToastProvider({ children }) {
   return (
     <ToastContext.Provider value={toast}>
       {children}
-      <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4 lg:bottom-6">
+      <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] flex flex-col gap-2 pointer-events-none w-full max-w-sm px-4 lg:bottom-6">
         {toasts.map((t) => (
           <div
             key={t.id}
-            className="pointer-events-auto flex items-start gap-3 bg-white dark:bg-gray-800 shadow-lg rounded-xl border border-gray-200 dark:border-gray-700 px-4 py-3 animate-slide-up"
+            className="pointer-events-auto flex items-start gap-3 bg-raised/95 backdrop-blur-xl shadow-float rounded-2xl border border-line px-4 py-3 animate-slide-up"
           >
             {icons[t.type]}
-            <p className="flex-1 text-sm text-gray-800 dark:text-gray-200">{t.message}</p>
-            <button onClick={() => dismiss(t.id)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <p className="flex-1 text-sm font-medium text-text">{t.message}</p>
+            <button onClick={() => dismiss(t.id)} className="text-muted hover:text-text transition-colors">
               <X className="w-4 h-4" />
             </button>
           </div>

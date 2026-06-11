@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { CheckCircle, XCircle, RotateCcw } from 'lucide-react'
+import { CheckCircle, XCircle, RotateCcw, Coffee } from 'lucide-react'
 import FlashCard from '../cards/FlashCard'
 import CompletionScreen from './CompletionScreen'
 import Button from '../ui/Button'
@@ -36,8 +36,12 @@ export default function StudySession({ topicId = null, speechSettings = {} }) {
 
   if (done && total === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 gap-4 text-center p-6">
-        <p className="text-gray-500 dark:text-gray-400 text-lg">No cards due for review today!</p>
+      <div className="flex flex-col items-center justify-center gap-4 text-center rounded-3xl border border-dashed border-accent/40 bg-accent/5 p-10 animate-rise">
+        <Coffee className="w-8 h-8 text-accent" />
+        <div>
+          <p className="font-display text-xl font-bold mb-1">All clear</p>
+          <p className="text-sm text-muted">No cards due for review today</p>
+        </div>
         <Button variant="secondary" onClick={restart}>
           <RotateCcw className="w-4 h-4" />
           Refresh
@@ -59,23 +63,25 @@ export default function StudySession({ topicId = null, speechSettings = {} }) {
   const topicName = topics.find((t) => t.id === currentCard?.topicId)?.name
 
   return (
-    <div className="flex flex-col gap-6 p-4 max-w-2xl mx-auto w-full">
+    <div className="flex flex-col gap-5 w-full">
       {/* Header */}
       <div className="flex items-center justify-between">
         {topicName && (
-          <span className="text-xs font-medium bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 px-2.5 py-1 rounded-full">
+          <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] border border-line bg-surface text-muted px-3 py-1.5 rounded-full">
             {topicName}
           </span>
         )}
-        <span className="ml-auto text-sm text-gray-500 dark:text-gray-400 font-medium">
-          {currentIndex + 1} / {total}
+        <span className="ml-auto font-mono text-sm text-muted">
+          <span className="text-accent font-semibold">{String(currentIndex + 1).padStart(2, '0')}</span>
+          {' / '}
+          {String(total).padStart(2, '0')}
         </span>
       </div>
 
       {/* Progress bar */}
-      <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+      <div className="w-full h-1 bg-raised rounded-full overflow-hidden">
         <div
-          className="h-full bg-indigo-500 rounded-full transition-all duration-300"
+          className="h-full bg-accent rounded-full transition-all duration-300"
           style={{ width: `${((currentIndex) / total) * 100}%` }}
         />
       </div>
@@ -93,7 +99,7 @@ export default function StudySession({ topicId = null, speechSettings = {} }) {
 
       {/* Grade buttons — only after flip */}
       {isFlipped && (
-        <div className="flex gap-4 animate-fade-in">
+        <div className="flex gap-3 animate-fade-in">
           <Button
             variant="danger"
             size="xl"
@@ -101,7 +107,7 @@ export default function StudySession({ topicId = null, speechSettings = {} }) {
             onClick={() => grade('missed')}
           >
             <XCircle className="w-5 h-5" />
-            Missed It
+            Missed
           </Button>
           <Button
             variant="success"
@@ -116,7 +122,7 @@ export default function StudySession({ topicId = null, speechSettings = {} }) {
       )}
 
       {!isFlipped && (
-        <Button size="lg" fullWidth onClick={flip}>
+        <Button size="xl" fullWidth onClick={flip}>
           Reveal Answer
         </Button>
       )}

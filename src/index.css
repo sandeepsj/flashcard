@@ -2,27 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ----- Theme tokens ----- */
 :root {
-  --card-front-bg: #f8fafc;
-  --card-back-bg: #eff6ff;
-  --heatmap-0: #e5e7eb;
-  --heatmap-1: #c7d2fe;
-  --heatmap-2: #818cf8;
-  --heatmap-3: #4f46e5;
+  /* warm paper light theme */
+  --c-base: 245 244 239;
+  --c-surface: 255 255 255;
+  --c-raised: 238 237 229;
+  --c-line: 226 224 213;
+  --c-text: 26 28 22;
+  --c-muted: 110 113 102;
+  --c-accent: 77 124 15;       /* lime-700 — readable on paper */
+  --c-primary: 26 28 22;       /* ink button, lime text */
+  --c-on-primary: 190 242 100;
+  --c-go: 132 204 22;
+  --c-on-go: 16 18 10;
+  --c-coral: 225 29 72;
+  --c-on-coral: 255 241 242;
+
+  --card-front-bg: #ffffff;
+  --card-back-bg: #f4f9e3;
+  --heatmap-0: #e8e6db;
+  --heatmap-1: #d9f99d;
+  --heatmap-2: #84cc16;
+  --heatmap-3: #3f6212;
+  --chart-got: #65a30d;
+  --chart-missed: #e11d48;
+  --chart-tick: #8b8e80;
+  --tooltip-bg: #1a1c16;
 }
 
 .dark {
-  --card-front-bg: #1e1b4b;
-  --card-back-bg: #1e293b;
-  --heatmap-0: #374151;
-  --heatmap-1: #3730a3;
-  --heatmap-2: #4f46e5;
-  --heatmap-3: #818cf8;
+  /* ink-blue night theme */
+  --c-base: 10 12 16;
+  --c-surface: 18 21 28;
+  --c-raised: 27 31 41;
+  --c-line: 38 43 56;
+  --c-text: 232 234 240;
+  --c-muted: 138 145 165;
+  --c-accent: 190 242 100;     /* lime-300 */
+  --c-primary: 163 230 53;     /* lime button, ink text */
+  --c-on-primary: 13 15 9;
+  --c-go: 163 230 53;
+  --c-on-go: 13 15 9;
+  --c-coral: 251 113 133;
+  --c-on-coral: 26 9 12;
+
+  --card-front-bg: #141823;
+  --card-back-bg: #151b12;
+  --heatmap-0: #1c212b;
+  --heatmap-1: #3f6212;
+  --heatmap-2: #84cc16;
+  --heatmap-3: #d9f99d;
+  --chart-got: #a3e635;
+  --chart-missed: #fb7185;
+  --chart-tick: #6b7186;
+  --tooltip-bg: #1b1f29;
 }
 
-/* 3D flip card */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-base text-text font-sans antialiased;
+  }
+  input[type='radio'],
+  input[type='checkbox'] {
+    accent-color: rgb(var(--c-accent));
+  }
+  ::selection {
+    background: rgb(var(--c-accent) / 0.3);
+  }
+}
+
+@layer components {
+  /* shared text input / select chrome */
+  .field {
+    @apply block w-full rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-text placeholder:text-muted/60 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-accent/60 focus:border-transparent;
+  }
+}
+
+/* ----- Atmosphere ----- */
+.app-bg {
+  background-image:
+    radial-gradient(56rem 36rem at 85% -10%, rgb(var(--c-accent) / 0.08), transparent 60%),
+    radial-gradient(40rem 28rem at -15% 35%, rgb(var(--c-accent) / 0.05), transparent 60%);
+  background-attachment: fixed;
+}
+
+.dotgrid {
+  background-image: radial-gradient(rgb(var(--c-text) / 0.07) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ----- 3D flip card ----- */
 .card-scene {
-  perspective: 1000px;
+  perspective: 1200px;
 }
 
 .card-inner {
@@ -43,14 +118,19 @@
   height: 100%;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
 }
 
 .card-face-back {
   transform: rotateY(180deg);
 }
 
-/* Scrollbar styling */
+/* ----- Floating bottom nav (thumb zone + safe area) ----- */
+.bottom-nav-float {
+  bottom: calc(0.875rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* ----- Scrollbar ----- */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -59,16 +139,8 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #a5b4fc;
+  background: rgb(var(--c-line));
   border-radius: 3px;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: #4338ca;
-}
-
-/* Bottom nav safe area */
-.bottom-nav-safe {
-  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 @layer utilities {

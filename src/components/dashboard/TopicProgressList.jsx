@@ -27,22 +27,22 @@ export default function TopicProgressList({ topics, cards }) {
         <button
           key={t.id}
           onClick={() => navigate(`/topics/${t.id}`)}
-          className="w-full bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 text-left hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors"
+          className="w-full rounded-2xl border border-line bg-surface p-4 text-left hover:border-accent/50 transition-colors"
         >
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{t.name}</span>
-            <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 shrink-0 ml-2">
+          <div className="flex items-center justify-between mb-2.5">
+            <span className="text-sm font-semibold truncate">{t.name}</span>
+            <div className="flex items-center gap-3 font-mono text-xs text-muted shrink-0 ml-2">
               <span>{t.mastered}/{t.total} mastered</span>
               {t.due > 0 && (
-                <span className="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 px-1.5 py-0.5 rounded-full font-medium">
+                <span className="bg-amber-400/15 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full font-semibold">
                   {t.due} due
                 </span>
               )}
             </div>
           </div>
-          <div className="w-full h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="w-full h-1 bg-raised rounded-full overflow-hidden">
             <div
-              className="h-full bg-indigo-500 rounded-full transition-all duration-500"
+              className="h-full bg-accent rounded-full transition-all duration-500"
               style={{ width: `${t.pct * 100}%` }}
             />
           </div>

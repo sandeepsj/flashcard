@@ -10,7 +10,7 @@ import ScoreChart from '../components/dashboard/ScoreChart'
 import TopicProgressList from '../components/dashboard/TopicProgressList'
 import Button from '../components/ui/Button'
 import { useNavigate } from 'react-router-dom'
-import { BookOpen } from 'lucide-react'
+import { BookOpen, Sparkles } from 'lucide-react'
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -46,20 +46,22 @@ export default function Dashboard() {
   })
 
   return (
-    <div className="p-4 lg:p-6 max-w-5xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="p-4 lg:p-8 max-w-5xl mx-auto space-y-5">
+      {/* Greeting */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pt-2 animate-rise">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-            Good {getGreeting()}, {user?.displayName?.split(' ')[0]}!
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-0.5">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted mb-1.5">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
+          <h1 className="font-display text-3xl lg:text-4xl font-bold tracking-tight">
+            Good {getGreeting()}, {user?.displayName?.split(' ')[0]}
+            <span className="text-accent">.</span>
+          </h1>
         </div>
         {dueToday > 0 && (
-          <Button onClick={() => navigate('/study')}>
+          <Button size="lg" onClick={() => navigate('/study')}>
             <BookOpen className="w-4 h-4" />
-            Study {dueToday} cards
+            Study {dueToday} due
           </Button>
         )}
       </div>
@@ -73,29 +75,36 @@ export default function Dashboard() {
       />
 
       {/* Heatmap */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-        <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Activity (last year)</h2>
+      <div className="rounded-3xl border border-line bg-surface p-5 animate-rise" style={{ animationDelay: '150ms' }}>
+        <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted mb-4">
+          Activity — last year
+        </h2>
         <Heatmap reviews={reviews} />
       </div>
 
       {/* Score chart */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-        <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Got It vs Missed (last 30 days)</h2>
+      <div className="rounded-3xl border border-line bg-surface p-5 animate-rise" style={{ animationDelay: '220ms' }}>
+        <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted mb-4">
+          Got it vs missed — 30 days
+        </h2>
         <ScoreChart reviews={last30Reviews} />
       </div>
 
       {/* Topic progress */}
       {topics.length > 0 && (
-        <div>
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Topics</h2>
+        <div className="animate-rise" style={{ animationDelay: '290ms' }}>
+          <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted mb-3 px-1">
+            Topics
+          </h2>
           <TopicProgressList topics={topics} cards={cards} />
         </div>
       )}
 
       {totalCards === 0 && (
-        <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 rounded-2xl p-8 text-center">
-          <p className="text-indigo-700 dark:text-indigo-300 font-medium mb-3">No cards yet</p>
-          <p className="text-sm text-indigo-500 dark:text-indigo-400 mb-4">Create your first flashcard to get started</p>
+        <div className="rounded-3xl border border-dashed border-accent/40 bg-accent/5 p-10 text-center animate-rise" style={{ animationDelay: '150ms' }}>
+          <Sparkles className="w-8 h-8 text-accent mx-auto mb-4" />
+          <p className="font-display text-xl font-bold mb-2">Your deck is empty</p>
+          <p className="text-sm text-muted mb-6">Create your first flashcard to start the streak</p>
           <Button onClick={() => navigate('/create')}>Create Cards</Button>
         </div>
       )}

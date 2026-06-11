@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { X } from 'lucide-react'
 
+/** Bottom sheet on mobile, centered dialog on larger screens. */
 export default function Modal({ open, onClose, title, children, className = '' }) {
   useEffect(() => {
     if (!open) return
@@ -12,26 +13,29 @@ export default function Modal({ open, onClose, title, children, className = '' }
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
-      {/* Dialog */}
+      {/* Sheet / dialog */}
       <div
-        className={`relative w-full bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-6 animate-fade-in ${className}`}
+        className={`relative w-full bg-surface border border-line rounded-t-3xl sm:rounded-3xl shadow-card p-6 pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))] sm:pb-6 animate-sheet ${className}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
       >
+        {/* Drag handle (mobile) */}
+        <div className="sm:hidden mx-auto -mt-2 mb-4 h-1 w-10 rounded-full bg-line" />
+
         <div className="flex items-center justify-between mb-4">
-          <h2 id="modal-title" className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+          <h2 id="modal-title" className="font-display text-lg font-bold tracking-tight text-text">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="p-2 -mr-2 rounded-full text-muted hover:text-text hover:bg-raised transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

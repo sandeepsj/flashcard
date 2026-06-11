@@ -18,7 +18,7 @@ function ProtectedRoute({ children }) {
   if (user === undefined) {
     // Still loading auth state
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
+      <div className="min-h-screen flex items-center justify-center bg-base">
         <Spinner size="lg" />
       </div>
     )

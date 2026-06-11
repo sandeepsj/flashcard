@@ -119,20 +119,24 @@ export default function Create() {
   }
 
   return (
-    <div className="p-4 lg:p-6 max-w-2xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Create Cards</h1>
+    <div className="p-4 lg:p-8 max-w-2xl mx-auto space-y-6">
+      <div className="pt-2 animate-rise">
+        <h1 className="font-display text-3xl font-bold tracking-tight">
+          Create<span className="text-accent">.</span>
+        </h1>
+      </div>
 
-      {/* Tabs + Input */}
-      <div>
-        <div className="flex overflow-x-auto border-b border-gray-200 dark:border-gray-700 mb-6 -mx-4 px-4 scrollbar-hide">
+      {/* Segmented tabs + input */}
+      <div className="animate-rise" style={{ animationDelay: '80ms' }}>
+        <div className="flex rounded-full bg-raised border border-line p-1 mb-6">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-all whitespace-nowrap ${
                 activeTab === id
-                  ? 'border-indigo-600 text-indigo-600 dark:text-indigo-400'
-                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                  ? 'bg-primary text-on-primary shadow-md'
+                  : 'text-muted hover:text-text'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -171,7 +175,7 @@ export default function Create() {
         {activeTab === 'bulk' && (
           <form onSubmit={parseBulk} className="space-y-4">
             <Input
-              label="Paste Q&A pairs (one Q: / A: pair per card)"
+              label="Paste Q&A pairs — one Q: / A: pair per card"
               textarea
               rows={10}
               value={bulkText}
@@ -192,12 +196,12 @@ export default function Create() {
       {previewCards.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="font-semibold text-gray-900 dark:text-gray-100">
+            <h2 className="font-display text-lg font-bold tracking-tight">
               {previewCards.length} card{previewCards.length !== 1 ? 's' : ''} ready
             </h2>
             <button
               onClick={() => setPreviewCards([])}
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+              className="text-sm font-medium text-muted hover:text-coral transition-colors"
             >
               Clear all
             </button>
@@ -206,24 +210,24 @@ export default function Create() {
           <CardPreviewList cards={previewCards} onChange={updateCard} onDelete={deleteCard} />
 
           {/* Topic selector */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 space-y-3">
-            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Save to topic</p>
+          <div className="rounded-3xl border border-line bg-surface p-5 space-y-3">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">Save to topic</p>
             <select
               value={selectedTopicId}
               onChange={(e) => { setSelectedTopicId(e.target.value); setNewTopicName('') }}
-              className="block w-full text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="field"
             >
               <option value="">Select existing topic…</option>
               {topics.map((t) => (
                 <option key={t.id} value={t.id}>{t.name}</option>
               ))}
             </select>
-            <p className="text-xs text-center text-gray-400">— or —</p>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-center text-muted/60">— or —</p>
             <input
               value={newTopicName}
               onChange={(e) => { setNewTopicName(e.target.value); setSelectedTopicId('') }}
               placeholder="Create new topic…"
-              className="block w-full text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="field"
             />
           </div>
 

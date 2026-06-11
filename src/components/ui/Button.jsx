@@ -1,18 +1,18 @@
 import React from 'react'
 
 const variants = {
-  primary: 'bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-indigo-500',
-  secondary: 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-600 focus:ring-indigo-500',
-  danger: 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
-  ghost: 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 focus:ring-indigo-500',
-  success: 'bg-emerald-600 hover:bg-emerald-700 text-white focus:ring-emerald-500',
+  primary: 'bg-primary text-on-primary shadow-lg shadow-primary/20 hover:brightness-110 active:brightness-95',
+  secondary: 'bg-surface text-text border border-line hover:border-muted/60 active:bg-raised',
+  danger: 'bg-coral text-on-coral shadow-lg shadow-coral/20 hover:brightness-110 active:brightness-95',
+  ghost: 'bg-transparent text-muted hover:text-text hover:bg-raised',
+  success: 'bg-go text-on-go shadow-lg shadow-go/20 hover:brightness-110 active:brightness-95',
 }
 
 const sizes = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-sm',
-  lg: 'px-6 py-3 text-base',
-  xl: 'px-8 py-4 text-lg min-w-[11rem] min-h-[3rem]',
+  sm: 'px-3.5 py-2 text-xs',
+  md: 'px-5 py-2.5 text-sm',
+  lg: 'px-6 py-3.5 text-sm',
+  xl: 'px-6 py-4 text-base min-h-[3.25rem]',
 }
 
 export default function Button({
@@ -29,9 +29,9 @@ export default function Button({
     <button
       disabled={disabled || loading}
       className={[
-        'inline-flex items-center justify-center gap-2 rounded-lg font-medium',
-        'transition-colors duration-150',
-        'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-900',
+        'inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight',
+        'transition-all duration-150 active:scale-[0.98]',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-base',
         variants[variant],
         sizes[size],
         fullWidth ? 'w-full' : '',

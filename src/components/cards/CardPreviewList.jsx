@@ -8,13 +8,15 @@ export default function CardPreviewList({ cards, onChange, onDelete }) {
       {cards.map((card, i) => (
         <div
           key={card._id || i}
-          className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 space-y-3"
+          className="rounded-3xl border border-line bg-surface p-4 space-y-3"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Card {i + 1}</span>
+            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
+              Card {String(i + 1).padStart(2, '0')}
+            </span>
             <button
               onClick={() => onDelete(i)}
-              className="p-1.5 text-gray-400 hover:text-red-500 dark:hover:text-red-400 transition-colors rounded"
+              className="p-2 text-muted hover:text-coral rounded-full hover:bg-raised transition-colors"
               title="Remove card"
             >
               <Trash2 className="w-4 h-4" />

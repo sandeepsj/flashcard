@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Plus, Pencil, Trash2, BookOpen } from 'lucide-react'
+import { Plus, Pencil, Trash2, BookOpen, Layers } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useTopics } from '../hooks/useTopics'
 import { useCards } from '../hooks/useCards'
@@ -27,9 +27,11 @@ export default function Topics() {
   }
 
   return (
-    <div className="p-4 lg:p-6 max-w-4xl mx-auto space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Topics</h1>
+    <div className="p-4 lg:p-8 max-w-4xl mx-auto space-y-5">
+      <div className="flex items-end justify-between pt-2 animate-rise">
+        <h1 className="font-display text-3xl font-bold tracking-tight">
+          Topics<span className="text-accent">.</span>
+        </h1>
         <Button onClick={() => setModal({ open: true, mode: 'create', topic: null })}>
           <Plus className="w-4 h-4" />
           New Topic
@@ -37,38 +39,41 @@ export default function Topics() {
       </div>
 
       {topics.length === 0 ? (
-        <div className="text-center py-16 text-gray-500 dark:text-gray-400">
-          <p className="mb-4">No topics yet. Create one to start organizing your cards.</p>
+        <div className="rounded-3xl border border-dashed border-accent/40 bg-accent/5 p-10 text-center animate-rise" style={{ animationDelay: '100ms' }}>
+          <Layers className="w-8 h-8 text-accent mx-auto mb-4" />
+          <p className="font-display text-xl font-bold mb-2">No topics yet</p>
+          <p className="text-sm text-muted mb-6">Create one to start organizing your cards</p>
           <Button onClick={() => setModal({ open: true, mode: 'create', topic: null })}>
             Create Topic
           </Button>
         </div>
       ) : (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {topics.map((t) => {
+          {topics.map((t, i) => {
             const enriched = enrichTopic(t)
             return (
               <div
                 key={t.id}
-                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5 hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors"
+                className="rounded-3xl border border-line bg-surface p-5 hover:border-accent/50 transition-colors animate-rise"
+                style={{ animationDelay: `${Math.min(i * 60, 360)}ms` }}
               >
-                <div className="flex items-start justify-between mb-3">
+                <div className="flex items-start justify-between mb-4">
                   <h3
-                    className="font-semibold text-gray-900 dark:text-gray-100 cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400 flex-1 truncate"
+                    className="font-display font-bold tracking-tight cursor-pointer hover:text-accent flex-1 truncate transition-colors"
                     onClick={() => navigate(`/topics/${t.id}`)}
                   >
                     {t.name}
                   </h3>
-                  <div className="flex gap-1 ml-2">
+                  <div className="flex gap-0.5 ml-2">
                     <button
                       onClick={() => setModal({ open: true, mode: 'rename', topic: t })}
-                      className="p-1.5 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 rounded transition-colors"
+                      className="p-2 text-muted hover:text-accent rounded-full hover:bg-raised transition-colors"
                     >
                       <Pencil className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={() => setModal({ open: true, mode: 'delete', topic: t })}
-                      className="p-1.5 text-gray-400 hover:text-red-500 dark:hover:text-red-400 rounded transition-colors"
+                      className="p-2 text-muted hover:text-coral rounded-full hover:bg-raised transition-colors"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -78,7 +83,7 @@ export default function Topics() {
                 <TopicBadge topic={enriched} />
 
                 {enriched.dueCount > 0 && (
-                  <div className="mt-3">
+                  <div className="mt-4">
                     <Button
                       size="sm"
                       fullWidth

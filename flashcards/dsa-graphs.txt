@@ -1,0 +1,74 @@
+Q: What is a graph in data structures?
+A: A non-linear data structure consisting of vertices (nodes) and edges that connect pairs of vertices. Can be directed or undirected.
+
+Q: What is the difference between directed and undirected graphs?
+A: In a directed graph (digraph), edges have a direction (A→B). In an undirected graph, edges are bidirectional (A—B).
+
+Q: What are the two common ways to represent a graph in memory?
+A: Adjacency matrix (2D array, O(V²) space) and adjacency list (array of lists, O(V+E) space).
+
+Q: When should you use an adjacency matrix over an adjacency list?
+A: When the graph is dense (E ≈ V²) or you need O(1) edge lookups. Adjacency list is better for sparse graphs.
+
+Q: What is the time complexity of BFS and DFS?
+A: Both are O(V + E) where V is vertices and E is edges, using an adjacency list.
+
+Q: What data structure does BFS use and what does DFS use?
+A: BFS uses a queue (FIFO). DFS uses a stack (LIFO) or recursion (implicit call stack).
+
+Q: What is a cycle in a graph?
+A: A path that starts and ends at the same vertex with no repeated edges. A graph with no cycles is called acyclic.
+
+Q: How do you detect a cycle in an undirected graph?
+A: Using DFS: if you visit a neighbor that is already visited and is not the parent of the current node, a cycle exists. Also possible with Union-Find.
+
+Q: How do you detect a cycle in a directed graph?
+A: Using DFS with three states: unvisited, in-progress, completed. If you encounter an in-progress node, a cycle exists (back edge found).
+
+Q: What is a topological sort?
+A: A linear ordering of vertices in a DAG such that for every directed edge u→v, u comes before v. Only possible for directed acyclic graphs (DAGs).
+
+Q: Name two algorithms for topological sort.
+A: Kahn's algorithm (BFS-based, uses in-degree) and DFS-based approach (reverse post-order of DFS finishing times).
+
+Q: What is Dijkstra's algorithm used for?
+A: Finding the shortest path from a single source to all other vertices in a weighted graph with non-negative edge weights. Time: O((V+E) log V) with a min-heap.
+
+Q: Why does Dijkstra's algorithm fail with negative weights?
+A: It assumes once a node is visited with the shortest distance, it won't be updated. Negative weights can create shorter paths through already-visited nodes.
+
+Q: What algorithm handles negative edge weights for shortest paths?
+A: Bellman-Ford algorithm. It relaxes all edges V-1 times. Time: O(V·E). It can also detect negative-weight cycles.
+
+Q: What is Floyd-Warshall algorithm?
+A: An all-pairs shortest path algorithm using dynamic programming. Time: O(V³), Space: O(V²). Works with negative weights but not negative cycles.
+
+Q: What is a minimum spanning tree (MST)?
+A: A subset of edges that connects all vertices with minimum total edge weight and no cycles. Has exactly V-1 edges.
+
+Q: Name two algorithms for finding MST.
+A: Kruskal's (sort edges, use Union-Find, greedily add smallest edge that doesn't form a cycle) and Prim's (grow tree from a source using a min-heap).
+
+Q: What is the time complexity of Kruskal's vs Prim's?
+A: Kruskal's: O(E log E) due to sorting. Prim's: O((V+E) log V) with a binary heap. Prim's is better for dense graphs, Kruskal's for sparse.
+
+Q: What is Union-Find (Disjoint Set Union)?
+A: A data structure that tracks elements partitioned into disjoint sets. Supports union(x,y) and find(x) in near O(1) amortized time with path compression and union by rank.
+
+Q: What is a bipartite graph?
+A: A graph whose vertices can be divided into two disjoint sets such that every edge connects a vertex in one set to the other. Can be checked using BFS/DFS 2-coloring.
+
+Q: What is the difference between a tree and a graph?
+A: A tree is a connected acyclic undirected graph with exactly V-1 edges. A graph can have cycles, be disconnected, and have any number of edges.
+
+Q: What are strongly connected components (SCCs)?
+A: Maximal subsets of vertices in a directed graph where every vertex is reachable from every other vertex in the subset. Found using Tarjan's or Kosaraju's algorithm.
+
+Q: What is Kosaraju's algorithm?
+A: A two-pass DFS algorithm for finding SCCs: (1) DFS on original graph, push to stack by finish time, (2) DFS on transposed graph in stack order. Each DFS tree in pass 2 is an SCC. Time: O(V+E).
+
+Q: What is an articulation point (cut vertex)?
+A: A vertex whose removal disconnects the graph. Found using Tarjan's DFS algorithm with discovery time and low values in O(V+E).
+
+Q: What is a bridge in a graph?
+A: An edge whose removal disconnects the graph. Found similarly to articulation points using DFS with low-link values.

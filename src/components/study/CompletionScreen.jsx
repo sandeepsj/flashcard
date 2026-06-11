@@ -16,31 +16,33 @@ export default function CompletionScreen({ stats, elapsedSeconds, onRestart }) {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] p-6 text-center">
-      <div className="w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center mb-6">
-        <CheckCircle className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+      <div className="w-24 h-24 rounded-full bg-accent/10 border border-accent/30 grid place-items-center mb-6 animate-rise">
+        <CheckCircle className="w-11 h-11 text-accent" />
       </div>
 
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Session Complete!</h2>
-      <p className="text-gray-500 dark:text-gray-400 mb-8">
-        Finished in {formatTime(elapsedSeconds)}
+      <h2 className="font-display text-3xl font-bold tracking-tight mb-2 animate-rise" style={{ animationDelay: '80ms' }}>
+        Session complete<span className="text-accent">.</span>
+      </h2>
+      <p className="font-mono text-sm text-muted mb-8 animate-rise" style={{ animationDelay: '140ms' }}>
+        finished in {formatTime(elapsedSeconds)}
       </p>
 
-      <div className="grid grid-cols-3 gap-4 mb-8 w-full max-w-sm">
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stats.got}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Got It</p>
+      <div className="grid grid-cols-3 gap-3 mb-8 w-full max-w-sm animate-rise" style={{ animationDelay: '200ms' }}>
+        <div className="rounded-2xl border border-line bg-surface p-4">
+          <p className="font-mono text-2xl font-semibold text-accent">{stats.got}</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted mt-1.5">Got it</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-2xl font-bold text-red-500 dark:text-red-400">{stats.missed}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Missed</p>
+        <div className="rounded-2xl border border-line bg-surface p-4">
+          <p className="font-mono text-2xl font-semibold text-coral">{stats.missed}</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted mt-1.5">Missed</p>
         </div>
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-          <p className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">{pct}%</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Correct</p>
+        <div className="rounded-2xl border border-line bg-surface p-4">
+          <p className="font-mono text-2xl font-semibold">{pct}%</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted mt-1.5">Score</p>
         </div>
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 animate-rise" style={{ animationDelay: '260ms' }}>
         <Button variant="secondary" onClick={() => navigate('/')}>
           <Home className="w-4 h-4" />
           Dashboard

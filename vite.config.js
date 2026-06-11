@@ -23,8 +23,8 @@ export default defineConfig({
         name: 'DSA Flashcards',
         short_name: 'Flashcards',
         description: 'Spaced repetition flashcards for DSA',
-        theme_color: '#6366f1',
-        background_color: '#ffffff',
+        theme_color: '#0a0c10',
+        background_color: '#0a0c10',
         display: 'standalone',
         orientation: 'portrait',
         scope: '/flashcard/',
@@ -42,6 +42,11 @@ export default defineConfig({
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: 'CacheFirst',
             options: { cacheName: 'google-fonts-cache', expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } }
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: { cacheName: 'google-fonts-files-cache', expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 365 } }
           }
         ]
       }

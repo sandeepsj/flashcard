@@ -54,7 +54,7 @@ export default function TopicModal({ mode, topic, open, onClose }) {
       open={open}
       onClose={onClose}
       title={mode === 'create' ? 'New Topic' : mode === 'rename' ? 'Rename Topic' : 'Delete Topic'}
-      className="max-w-md"
+      className="sm:max-w-md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {(mode === 'create' || mode === 'rename') && (
@@ -71,15 +71,15 @@ export default function TopicModal({ mode, topic, open, onClose }) {
 
         {mode === 'delete' && (
           <div className="space-y-3">
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              <span className="font-semibold text-gray-900 dark:text-gray-100">{topic?.name}</span>
+            <p className="text-sm text-muted">
+              <span className="font-semibold text-text">{topic?.name}</span>
               {' '}has{' '}
-              <span className="font-semibold">{topic?.cardCount || 0} cards</span>.
+              <span className="font-semibold text-text">{topic?.cardCount || 0} cards</span>.
               What should happen to them?
             </p>
 
             <div className="space-y-2">
-              <label className="flex items-start gap-3 cursor-pointer">
+              <label className="flex items-start gap-3 cursor-pointer rounded-2xl border border-line p-3 hover:bg-raised transition-colors">
                 <input
                   type="radio"
                   name="deleteAction"
@@ -89,12 +89,12 @@ export default function TopicModal({ mode, topic, open, onClose }) {
                   className="mt-0.5"
                 />
                 <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Delete all cards</p>
-                  <p className="text-xs text-gray-500">This cannot be undone</p>
+                  <p className="text-sm font-semibold">Delete all cards</p>
+                  <p className="text-xs text-muted">This cannot be undone</p>
                 </div>
               </label>
 
-              <label className="flex items-start gap-3 cursor-pointer">
+              <label className="flex items-start gap-3 cursor-pointer rounded-2xl border border-line p-3 hover:bg-raised transition-colors">
                 <input
                   type="radio"
                   name="deleteAction"
@@ -105,7 +105,7 @@ export default function TopicModal({ mode, topic, open, onClose }) {
                   className="mt-0.5"
                 />
                 <div className="flex-1">
-                  <p className={`text-sm font-medium ${otherTopics.length === 0 ? 'text-gray-400' : 'text-gray-900 dark:text-gray-100'}`}>
+                  <p className={`text-sm font-semibold ${otherTopics.length === 0 ? 'text-muted/50' : ''}`}>
                     Move cards to another topic
                   </p>
                   {deleteAction === 'reassign' && otherTopics.length > 0 && (
@@ -113,7 +113,7 @@ export default function TopicModal({ mode, topic, open, onClose }) {
                       value={reassignId}
                       onChange={(e) => setReassignId(e.target.value)}
                       required={deleteAction === 'reassign'}
-                      className="mt-1 block w-full text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="field mt-2"
                     >
                       <option value="">Select topic…</option>
                       {otherTopics.map((t) => (
@@ -125,7 +125,7 @@ export default function TopicModal({ mode, topic, open, onClose }) {
               </label>
             </div>
 
-            {error && <p className="text-xs text-red-500">{error}</p>}
+            {error && <p className="text-xs text-coral">{error}</p>}
           </div>
         )}
 

@@ -5,46 +5,46 @@ export default function FlashCard({ card, isFlipped, onFlip, onSpeak, onStopSpea
   return (
     <div
       className="card-scene w-full"
-      style={{ height: 'clamp(260px, 40vh, 400px)' }}
+      style={{ height: 'clamp(280px, 44vh, 420px)' }}
     >
       <div className={`card-inner ${isFlipped ? 'flipped' : ''}`}>
         {/* Front — question */}
         <div
-          className="card-face flex flex-col items-center justify-center p-8 cursor-pointer select-none shadow-xl border border-gray-200 dark:border-gray-700"
+          className="card-face flex flex-col items-center justify-center p-8 cursor-pointer select-none shadow-card border border-line"
           style={{ background: 'var(--card-front-bg)' }}
           onClick={!isFlipped ? onFlip : undefined}
         >
-          <span className="text-xs font-semibold uppercase tracking-widest text-indigo-400 dark:text-indigo-500 mb-4">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-accent mb-5">
             Question
           </span>
-          <p className="text-center text-lg md:text-xl font-medium text-gray-800 dark:text-gray-100 leading-relaxed">
+          <p className="font-display text-center text-xl md:text-2xl font-semibold text-text leading-snug">
             {card?.question}
           </p>
           {speechSupported && (
             <button
               onClick={(e) => { e.stopPropagation(); speaking ? onStopSpeak() : onSpeak(card?.question) }}
-              className="absolute bottom-4 right-4 p-2 text-gray-400 hover:text-indigo-500 transition-colors"
+              className="absolute bottom-4 right-4 p-2.5 rounded-full border border-line text-muted hover:text-accent hover:border-accent/50 transition-colors"
               title={speaking ? 'Stop' : 'Read aloud'}
             >
               {speaking ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
             </button>
           )}
           {!isFlipped && (
-            <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-gray-400 dark:text-gray-600">
-              Tap to reveal answer
+            <p className="absolute bottom-5 left-1/2 -translate-x-1/2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted/60">
+              Tap to flip
             </p>
           )}
         </div>
 
         {/* Back — answer */}
         <div
-          className="card-face card-face-back flex flex-col items-center justify-center p-8 shadow-xl border border-indigo-200 dark:border-indigo-800"
+          className="card-face card-face-back flex flex-col items-center justify-center p-8 shadow-card border border-accent/30"
           style={{ background: 'var(--card-back-bg)' }}
         >
-          <span className="text-xs font-semibold uppercase tracking-widest text-indigo-400 dark:text-indigo-500 mb-4">
+          <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.3em] text-accent mb-5">
             Answer
           </span>
-          <p className="text-center text-base md:text-lg text-gray-800 dark:text-gray-100 leading-relaxed overflow-y-auto max-h-64 no-scrollbar">
+          <p className="text-center text-base md:text-lg text-text leading-relaxed overflow-y-auto max-h-64 no-scrollbar">
             {card?.answer}
           </p>
         </div>

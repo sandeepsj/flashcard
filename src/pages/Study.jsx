@@ -13,9 +13,14 @@ export default function Study() {
   }
 
   return (
-    <div className="p-4 lg:p-6 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Study Session</h1>
-      <StudySession topicId={topicId} speechSettings={speechSettings} />
+    <div className="p-4 lg:p-8 max-w-2xl mx-auto">
+      <div className="pt-2 mb-4 animate-rise">
+        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted mb-1.5">Focus mode</p>
+        <h1 className="font-display text-3xl font-bold tracking-tight">
+          Study<span className="text-accent">.</span>
+        </h1>
+      </div>
+      <StudySession speechSettings={speechSettings} />
     </div>
   )
 }

@@ -11,7 +11,7 @@ export default function TopicBadge({ topic, compact = false }) {
 
   if (compact) {
     return (
-      <span className="text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-1.5 py-0.5 rounded-full">
+      <span className="font-mono text-[10px] font-semibold text-muted bg-raised px-2 py-0.5 rounded-full">
         {total}
       </span>
     )
@@ -25,19 +25,20 @@ export default function TopicBadge({ topic, compact = false }) {
   return (
     <div className="flex items-center gap-3">
       <svg width="40" height="40" className="-rotate-90">
-        <circle cx="20" cy="20" r={r} fill="none" stroke="currentColor" strokeWidth="3" className="text-gray-200 dark:text-gray-700" />
+        <circle cx="20" cy="20" r={r} fill="none" stroke="currentColor" strokeWidth="3" className="text-raised" />
         <circle
           cx="20" cy="20" r={r}
           fill="none"
           stroke="currentColor"
           strokeWidth="3"
+          strokeLinecap="round"
           strokeDasharray={`${dash} ${circ}`}
-          className="text-indigo-500 dark:text-indigo-400 transition-all duration-500"
+          className="text-accent transition-all duration-500"
         />
       </svg>
       <div>
-        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{total} cards</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">{mastered} mastered</p>
+        <p className="font-mono text-sm font-semibold">{total} cards</p>
+        <p className="text-xs text-muted">{mastered} mastered</p>
       </div>
     </div>
   )

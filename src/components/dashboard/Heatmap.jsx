@@ -77,7 +77,7 @@ export default function Heatmap({ reviews = [] }) {
         {/* Day labels */}
         <div className="flex flex-col gap-[2px] mr-1 mt-5">
           {DAY_LABELS.map((d, i) => (
-            <div key={i} style={{ height: cellSize, width: 10 }} className="flex items-center justify-center text-[9px] text-gray-400 dark:text-gray-600">
+            <div key={i} style={{ height: cellSize, width: 10 }} className="flex items-center justify-center font-mono text-[9px] text-muted/70">
               {i % 2 === 1 ? d : ''}
             </div>
           ))}
@@ -89,7 +89,7 @@ export default function Heatmap({ reviews = [] }) {
             {grid.map((_, wi) => {
               const ml = monthLabels.find((m) => m.wi === wi)
               return (
-                <div key={wi} style={{ width: cellSize }} className="text-[9px] text-gray-400 dark:text-gray-600 whitespace-nowrap">
+                <div key={wi} style={{ width: cellSize }} className="font-mono text-[9px] text-muted/70 whitespace-nowrap">
                   {ml ? ml.label : ''}
                 </div>
               )
@@ -122,7 +122,7 @@ export default function Heatmap({ reviews = [] }) {
       {/* Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-50 pointer-events-none bg-gray-900 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded shadow-lg"
+          className="fixed z-50 pointer-events-none bg-raised border border-line text-text font-mono text-xs px-2.5 py-1.5 rounded-lg shadow-float"
           style={{ left: tooltip.x + 10, top: tooltip.y - 30 }}
         >
           {tooltip.cell.key}: {tooltip.cell.count} review{tooltip.cell.count !== 1 ? 's' : ''}

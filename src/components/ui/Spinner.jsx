@@ -4,7 +4,7 @@ export default function Spinner({ size = 'md', className = '' }) {
   const sizes = { sm: 'w-4 h-4', md: 'w-8 h-8', lg: 'w-12 h-12' }
   return (
     <svg
-      className={`animate-spin text-indigo-600 dark:text-indigo-400 ${sizes[size]} ${className}`}
+      className={`animate-spin text-accent ${sizes[size]} ${className}`}
       fill="none"
       viewBox="0 0 24 24"
     >

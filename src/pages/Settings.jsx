@@ -32,38 +32,42 @@ export default function Settings() {
   }
 
   return (
-    <div className="p-4 lg:p-6 max-w-lg mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Settings</h1>
+    <div className="p-4 lg:p-8 max-w-lg mx-auto space-y-5">
+      <div className="pt-2 animate-rise">
+        <h1 className="font-display text-3xl font-bold tracking-tight">
+          Settings<span className="text-accent">.</span>
+        </h1>
+      </div>
 
       {/* Theme */}
-      <Section title="Appearance">
+      <Section title="Appearance" delay="80ms">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-700 dark:text-gray-300">Dark mode</span>
+          <span className="text-sm font-medium">Dark mode</span>
           <button
             onClick={toggleTheme}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-              theme === 'dark' ? 'bg-indigo-600' : 'bg-gray-200 dark:bg-gray-700'
+            className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors ${
+              theme === 'dark' ? 'bg-primary' : 'bg-raised border border-line'
             }`}
           >
-            <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}`} />
+            <span className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}`} />
           </button>
         </div>
       </Section>
 
       {/* Speech */}
-      <Section title="Text-to-Speech">
+      <Section title="Text-to-Speech" delay="150ms">
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Speed</label>
-            <div className="flex gap-2">
+            <label className="block text-[11px] font-mono uppercase tracking-[0.15em] text-muted mb-2">Speed</label>
+            <div className="flex rounded-full bg-raised border border-line p-1">
               {RATES.map(({ label, value }) => (
                 <button
                   key={value}
                   onClick={() => setSettings((s) => ({ ...s, speechRate: value }))}
-                  className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
+                  className={`flex-1 py-2 rounded-full text-sm font-semibold transition-all ${
                     settings.speechRate === value
-                      ? 'bg-indigo-600 text-white border-indigo-600'
-                      : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-indigo-400'
+                      ? 'bg-primary text-on-primary shadow-md'
+                      : 'text-muted hover:text-text'
                   }`}
                 >
                   {label}
@@ -74,11 +78,11 @@ export default function Settings() {
 
           {voices.length > 0 && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Voice</label>
+              <label className="block text-[11px] font-mono uppercase tracking-[0.15em] text-muted mb-2">Voice</label>
               <select
                 value={settings.voiceURI}
                 onChange={(e) => setSettings((s) => ({ ...s, voiceURI: e.target.value }))}
-                className="block w-full text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="field"
               >
                 <option value="">System default</option>
                 {voices.map((v) => (
@@ -91,28 +95,30 @@ export default function Settings() {
       </Section>
 
       {/* Account */}
-      <Section title="Account">
+      <Section title="Account" delay="220ms">
         {user && (
           <div className="flex items-center gap-3 mb-4">
-            <img src={user.photoURL || ''} alt="" className="w-10 h-10 rounded-full bg-gray-200" />
+            <img src={user.photoURL || ''} alt="" className="w-10 h-10 rounded-full bg-raised" />
             <div>
-              <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">{user.displayName}</p>
-              <p className="text-xs text-gray-500">{user.email}</p>
+              <p className="text-sm font-semibold">{user.displayName}</p>
+              <p className="text-xs text-muted font-mono">{user.email}</p>
             </div>
           </div>
         )}
         <Button variant="danger" size="sm" onClick={signOut}>Sign Out</Button>
       </Section>
 
-      <Button fullWidth onClick={save}>Save Settings</Button>
+      <div className="animate-rise" style={{ animationDelay: '290ms' }}>
+        <Button fullWidth size="lg" onClick={save}>Save Settings</Button>
+      </div>
     </div>
   )
 }
 
-function Section({ title, children }) {
+function Section({ title, children, delay = '0ms' }) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-      <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">{title}</h2>
+    <div className="rounded-3xl border border-line bg-surface p-5 animate-rise" style={{ animationDelay: delay }}>
+      <h2 className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-muted mb-4">{title}</h2>
       {children}
     </div>
   )

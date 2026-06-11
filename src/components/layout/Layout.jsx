@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Menu } from 'lucide-react'
+import { Menu, Zap, Download, X } from 'lucide-react'
 import Sidebar from './Sidebar'
 import BottomNav from './BottomNav'
 import MobileDrawer from './MobileDrawer'
@@ -30,36 +30,46 @@ export default function Layout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
+    <div className="flex min-h-screen bg-base text-text app-bg">
       <OfflineBanner />
       <Sidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Mobile top bar */}
-        <header className="lg:hidden flex items-center justify-between px-4 h-14 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 sticky top-0 z-30">
+        <header className="lg:hidden flex items-center justify-between px-4 h-14 bg-base/80 backdrop-blur-xl border-b border-line/60 sticky top-0 z-30">
           <button
             onClick={() => setDrawerOpen(true)}
-            className="p-2 -ml-2 text-gray-600 dark:text-gray-400"
+            className="p-2 -ml-2 rounded-full text-muted hover:text-text transition-colors"
           >
             <Menu className="w-5 h-5" />
           </button>
-          <span className="font-bold text-gray-900 dark:text-white">FlashDSA</span>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-primary grid place-items-center">
+              <Zap className="w-3.5 h-3.5 text-on-primary" fill="currentColor" />
+            </div>
+            <span className="font-display font-bold tracking-tight">FlashDSA</span>
+          </div>
           <div className="w-9" />
         </header>
 
         {/* Install banner */}
         {showInstall && (
-          <div className="flex items-center justify-between px-4 py-2 bg-indigo-600 text-white text-sm">
-            <span>Install FlashDSA as an app for offline access</span>
-            <div className="flex gap-2">
-              <button onClick={handleInstall} className="font-semibold underline">Install</button>
-              <button onClick={() => setShowInstall(false)} className="opacity-70">×</button>
+          <div className="flex items-center justify-between gap-3 mx-4 mt-3 px-4 py-2.5 rounded-2xl bg-primary text-on-primary text-sm shadow-lg shadow-primary/20">
+            <span className="flex items-center gap-2 font-medium">
+              <Download className="w-4 h-4 shrink-0" />
+              Install FlashDSA for offline study
+            </span>
+            <div className="flex items-center gap-1">
+              <button onClick={handleInstall} className="font-bold underline underline-offset-2">Install</button>
+              <button onClick={() => setShowInstall(false)} className="p-1 opacity-70 hover:opacity-100">
+                <X className="w-4 h-4" />
+              </button>
             </div>
           </div>
         )}
 
         {/* Page content */}
-        <main className="flex-1 pb-20 lg:pb-0 overflow-y-auto">
+        <main className="flex-1 pb-32 lg:pb-0 overflow-y-auto">
           <Outlet />
         </main>
       </div>
