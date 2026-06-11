@@ -20,7 +20,7 @@ export default function Study() {
           Study<span className="text-accent">.</span>
         </h1>
       </div>
-      <StudySession speechSettings={speechSettings} />
+      <StudySession topicId={topicId} speechSettings={speechSettings} />
     </div>
   )
 }
