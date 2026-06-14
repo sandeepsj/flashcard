@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Plus, Pencil, Trash2, BookOpen, Layers } from 'lucide-react'
+import { Plus, Pencil, Trash2, BookOpen, Layers, List } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useTopics } from '../hooks/useTopics'
 import { useCards } from '../hooks/useCards'
@@ -82,8 +82,17 @@ export default function Topics() {
 
                 <TopicBadge topic={enriched} />
 
-                {enriched.dueCount > 0 && (
-                  <div className="mt-4">
+                <div className="mt-4 space-y-2">
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    fullWidth
+                    onClick={() => navigate(`/topics/${t.id}`)}
+                  >
+                    <List className="w-3.5 h-3.5" />
+                    View cards
+                  </Button>
+                  {enriched.dueCount > 0 && (
                     <Button
                       size="sm"
                       fullWidth
@@ -92,8 +101,8 @@ export default function Topics() {
                       <BookOpen className="w-3.5 h-3.5" />
                       Study {enriched.dueCount} due
                     </Button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             )
           })}
