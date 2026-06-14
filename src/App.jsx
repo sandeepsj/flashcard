@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard'
 import Study from './pages/Study'
 import Create from './pages/Create'
 import Topics from './pages/Topics'
+import TopicDetail from './pages/TopicDetail'
 import Settings from './pages/Settings'
 import Spinner from './components/ui/Spinner'
 
@@ -48,6 +49,7 @@ function AppRoutes() {
         <Route path="study" element={<Study />} />
         <Route path="create" element={<Create />} />
         <Route path="topics" element={<Topics />} />
+        <Route path="topics/:id" element={<TopicDetail />} />
         <Route path="settings" element={<Settings />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
