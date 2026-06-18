@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { CheckCircle, XCircle, RotateCcw, Coffee } from 'lucide-react'
 import FlashCard from '../cards/FlashCard'
 import CompletionScreen from './CompletionScreen'
@@ -17,14 +17,6 @@ export default function StudySession({ topicId = null, speechSettings = {} }) {
 
   const { supported, speaking, speak, cancel } = useSpeech(speechSettings)
   const { topics } = useTopics()
-
-  // Auto-speak question when card changes
-  useEffect(() => {
-    if (currentCard && !isFlipped && supported) {
-      speak(currentCard.question)
-    }
-    return () => cancel()
-  }, [currentCard?.id, isFlipped])
 
   if (loading) {
     return (
